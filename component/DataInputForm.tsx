@@ -4,29 +4,23 @@ import { useState } from "react";
 import styles from "./DataInputForm.module.css";
 
 export default function DataInputForm({ setLabels, setValues }: any) {
-  const [monthYear, setMonthYear] = useState("");
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
   const [value, setValue] = useState("");
 
   const [tempLabels, setTempLabels] = useState<string[]>([]);
   const [tempValues, setTempValues] = useState<number[]>([]);
 
   const addData = () => {
-    if (!monthYear || !value) return;
+    if (!year || !month || !value) return;
 
-    // monthYear format: YYYY-MM
-    const [year, month] = monthYear.split("-");
-
-    const monthNames = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-    ];
-
-    const label = `${monthNames[Number(month) - 1]} ${year}`;
+    const label = `${month} ${year}`;
 
     setTempLabels([...tempLabels, label]);
     setTempValues([...tempValues, Number(value)]);
 
-    setMonthYear("");
+    setYear("");
+    setMonth("");
     setValue("");
   };
 
@@ -40,14 +34,26 @@ export default function DataInputForm({ setLabels, setValues }: any) {
       <h2 className={styles.formTitle}>Enter Data</h2>
 
       <div className={styles.formRow}>
-        {/* Month + Year */}
+        {/* Year */}
         <div className={styles.fieldGroup}>
-          <label className={styles.label}>Year & Month</label>
+          <label className={styles.label}>Year</label>
           <input
             className={styles.input}
-            type="month"
-            value={monthYear}
-            onChange={(e) => setMonthYear(e.target.value)}
+            type="number"
+            placeholder="e.g. 2024"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+          />
+        </div>
+
+        {/* Month */}
+        <div className={styles.fieldGroup}>
+          <label className={styles.label}>Month</label>
+          <input
+            className={styles.input}
+            placeholder="e.g. Jan"
+            value={month}
+            onChange={(e) => setMonth(e.target.value)}
           />
         </div>
 
